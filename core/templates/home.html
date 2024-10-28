@@ -8,8 +8,31 @@
 </head>
 <body>
     <a href="{% url 'signin' %}">signin</a>
-    {% block content %}
-    {% endblock %}
+    <a href="{% url 'logout' %}">Logout</a>
+
+    <h3>name:  {{profile.user.username}}</h3>
+    <h3>phone: {{profile.phone}}</h3>
+    <h3>role:  {{profile.role}}</h3>
+    {% if profile.role != 'bhagat' %}
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Phone no</th>
+            <th scope="col">District</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sevakar in data %}
+            <tr>
+                <td>{{sevakar.user.username}}</td>
+                <td>{{sevakar.phone}}</td>
+                <td>{{sevakar.district}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

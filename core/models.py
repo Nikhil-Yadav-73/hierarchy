@@ -14,31 +14,22 @@ class District(models.Model):
     def __str__(self):
         return self.name
     
-class Bhakt(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class UserProfile(models.Model):
+    class Role(models.TextChoices):
+        BHAGAT = 'bhagat', 'Bhagat'
+        DISTRICT_SEVAKAR = 'district_sevakar', 'District Sevakar'
+        STATE_SEVAKAR = 'state_sevakar', 'State Sevakar'
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(
+        max_length=20,
+        choices=Role.choices,
+        default=Role.BHAGAT
+    )
+    phone = models.CharField(max_length=10)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15)
-    
+
     def __str__(self):
-        return self.user.username
-    
-class DistrictSevak(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
-    state = models.ForeignKey(State, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15)
-    
-    def __str__(self):
-        return self.user.username
-    
-class StateSevak(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
-    state = models.ForeignKey(State, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15)
-    
-    def __str__(self):
-        return self.user.username
-    
-    
+        return (f"{self.user.username} -> {self.role}")
+   
